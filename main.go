@@ -14,7 +14,9 @@ func main() {
 	startPercent := flag.Int("startp", 0, "Start percentage of the range")
 	endPercent := flag.Int("endp", 100, "End percentage of the range")
 	chunk := flag.Int("chunk", 10, "Number of hex values to swap each time")
-	mode := flag.String("mode", "swap", "Mode of operation: swap, copyswap, blackout, purerandom")
+	mode := flag.String("mode", "swap", "Mode of operation: swap, copyswap, blackout, purerandom, reverse")
+	incrementMin := flag.Int("increment-min", 1, "Minimum value to increment by")
+	incrementMax := flag.Int("increment-max", 10, "Maximum value to increment by")
 
 	flag.Parse()
 
@@ -72,6 +74,21 @@ func main() {
 						inputBytes[i+j] = byte(rand.Intn(256))
 					}
 				}
+			case "reverse":
+				for j, k := i, i+*chunk-1; j < k; j, k = j+1, k-1 {
+					inputBytes[j], inputBytes[k] = inputBytes[k], inputBytes[j]
+				}
+			case "incremental":
+				for j := 0; j < *chunk; j++ {
+					if i+j < endIdx {
+						increment := rand.Intn(*incrementMax-*incrementMin+1) + *incrementMin
+						newValue := inputBytes[i+j] + byte(increment)
+						if newValue > 255 {
+							newValue = 255
+						}
+						inputBytes[i+j] = newValue
+					}
+				}
 			default:
 				fmt.Println("Invalid mode specified.")
 				return
@@ -87,4 +104,3 @@ func main() {
 
 	fmt.Printf("File copy with random hex manipulation completed successfully. Operations performed: %d\n", swaps)
 }
-
