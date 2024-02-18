@@ -1,5 +1,5 @@
 # movmosh
-Mosh MOV files.
+General purpose datamosher. Best used to mosh AVI or MOV videos.
 
 ## Usage
 ```bash
@@ -13,7 +13,7 @@ movmosh -input IMG_0246.MOV -output output.mov --rate 0.5 --startp 20 --endp 96 
 - `--startp`: Start percentage of the file range to mosh.
 - `--endp`: End percentage of the file range to mosh.
 - `--chunk`: The chunksize of data to be corrupted.
-- `--mode`: The moshing mode, can be `swap` (default), `copyswap`, `blackout`, `purerandom`.
+- `--mode`: The moshing mode, can be `swap` (default), `copyswap`, `blackout`, `purerandom`, `reverse`, `incremental`.
 
 ## License
 MIT
